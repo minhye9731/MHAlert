@@ -11,6 +11,7 @@ import UIKit
 public enum MHAlertButtonStyle {
     case basic
     case colored
+    case lined
 }
 
 
@@ -32,31 +33,30 @@ open class MHAlert: UIView {
     
     private var alertButtonStyle: MHAlertButtonStyle = .basic
     
-    ///Basic
-    public convenience init(title: String, message: String, style: MHAlertButtonStyle, confirm: String, cancel: String, completion: (() -> Void)?) {
+    public convenience init(title: String, message: String, style: MHAlertButtonStyle, confirm: String, cancel: String?, color: UIColor?, completion: (() -> Void)?) {
         self.init(frame: CGRect.zero)
         
         self.titleText = title
         self.messageText = message
         self.confirmText = confirm
         self.cancelText = cancel
-        self.alertButtonStyle = style
-        self.completion = completion
-    }
-    
-    ///Colored
-    public convenience init(title: String, message: String, style: MHAlertButtonStyle, confirm: String, color: UIColor, completion: (() -> Void)?) {
-        self.init(frame: CGRect.zero)
-        
-        self.titleText = title
-        self.messageText = message
-        self.confirmText = confirm
-        self.completion = completion
         
         self.titleLabel.textColor = color
-        self.confirmButton.backgroundColor = color
+//        self.confirmButton.backgroundColor = color
+        
         self.alertButtonStyle = style
-        self.contentView.backgroundColor = color// .withAlphaComponent(0.1)
+        self.completion = completion
+        
+        if style == .colored {
+            self.contentView.backgroundColor = color?.withAlphaComponent(0.1)
+            self.confirmButton.backgroundColor = color
+        } else if style == .lined {
+            self.confirmButton.backgroundColor = .white
+            self.confirmButton.setTitleColor(color, for: .normal)
+        } else {
+//            default
+            self.confirmButton.backgroundColor = .white
+        }
     }
     
     override public init(frame: CGRect) {
@@ -114,12 +114,14 @@ open class MHAlert: UIView {
         titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10.0).isActive = true
         
         messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15).isActive = true
-        messageLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 28).isActive = true
+//        messageLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 28).isActive = true
         messageLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
         messageLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
         
         switch alertButtonStyle {
         case .basic:
+            messageLabel.bottomAnchor.constraint(equalTo: lineView.topAnchor, constant: -15).isActive = true
+            
             contentView.addSubview(lineView)
             lineView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
             lineView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
@@ -145,11 +147,27 @@ open class MHAlert: UIView {
             verticalLineView.widthAnchor.constraint(equalToConstant: 0.5).isActive = true
             
         case .colored:
+            messageLabel.bottomAnchor.constraint(equalTo: confirmButton.topAnchor, constant: -15).isActive = true
+            
             confirmButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6).isActive = true
             confirmButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
             confirmButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
             confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24).isActive = true
             confirmButton.layer.cornerRadius = 20
+            
+        case .lined:
+            messageLabel.bottomAnchor.constraint(equalTo: lineView.topAnchor, constant: -15).isActive = true
+            
+            contentView.addSubview(lineView)
+            lineView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+            lineView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+            lineView.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
+            
+            confirmButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+            confirmButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+            confirmButton.topAnchor.constraint(equalTo: lineView.bottomAnchor).isActive = true
+            confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+            confirmButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
         }
     }
     
@@ -189,6 +207,13 @@ open class MHAlert: UIView {
             messageLabel.textColor = .lightGray
             confirmButton.setTitleColor(.white, for: .normal)
             confirmButton.titleLabel?.font = .systemFont(ofSize: 24, weight: .semibold)
+            
+        case .lined:
+            titleLabel.font = .systemFont(ofSize: 24, weight: .semibold)
+            messageLabel.font = .systemFont(ofSize: 14, weight: .regular)
+            messageLabel.textColor = .lightGray
+//            confirmButton.setTitleColor(.white, for: .normal)
+            confirmButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
         }
     }
     
