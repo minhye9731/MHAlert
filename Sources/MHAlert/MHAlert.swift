@@ -97,7 +97,6 @@ open class MHAlert: UIView {
         contentView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         contentView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2).isActive = true
         contentView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8).isActive = true
-        contentView.clipsToBounds = true
         
         titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10.0).isActive = true
@@ -108,7 +107,6 @@ open class MHAlert: UIView {
         
         switch alertButtonStyle {
         case .basic:
-
             contentView.addSubview(lineView)
             lineView.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 15).isActive = true
             lineView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
@@ -140,13 +138,12 @@ open class MHAlert: UIView {
             confirmButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6).isActive = true
             confirmButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
             confirmButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-            confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24).isActive = true
+            confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20).isActive = true
             confirmButton.layer.cornerRadius = 22
             
         case .lined:
-            messageLabel.bottomAnchor.constraint(equalTo: lineView.topAnchor, constant: -15).isActive = true
-            
             contentView.addSubview(lineView)
+            lineView.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 15).isActive = true
             lineView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
             lineView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
             lineView.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
@@ -172,6 +169,7 @@ open class MHAlert: UIView {
     open func setAttribute() {
         self.backgroundColor = UIColor.black.withAlphaComponent(0.7)
         contentView.layer.cornerRadius = 14.0
+        contentView.clipsToBounds = true
         
         titleLabel.text = titleText ?? "Title"
         titleLabel.textAlignment = .center
