@@ -158,9 +158,9 @@ open class MHAlert: UIView {
             messageLabel.bottomAnchor.constraint(equalTo: confirmButton.topAnchor, constant: -15).isActive = true
             
             confirmButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6).isActive = true
-            confirmButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+            confirmButton.heightAnchor.constraint(equalToConstant: 36.0).isActive = true
             confirmButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-            confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24).isActive = true
+            confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
             confirmButton.layer.cornerRadius = 22
         }
     }
@@ -201,7 +201,7 @@ open class MHAlert: UIView {
             confirmButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
             
         case .colored:
-            contentView.backgroundColor = pointColor.withAlphaComponent(0.1)
+            contentView.backgroundColor = pointColor.withAlphaComponent(0.2)
             
             titleLabel.font = .systemFont(ofSize: 24, weight: .semibold)
             titleLabel.textColor = pointColor
@@ -212,6 +212,8 @@ open class MHAlert: UIView {
             confirmButton.titleLabel?.font = .systemFont(ofSize: 24, weight: .semibold)
             
         case .lined:
+            contentView.backgroundColor = .white
+            
             titleLabel.font = .systemFont(ofSize: 24, weight: .semibold)
             titleLabel.textColor = pointColor
             messageLabel.font = .systemFont(ofSize: 14, weight: .regular)
@@ -221,12 +223,14 @@ open class MHAlert: UIView {
             confirmButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
             
         case .shadow:
+            contentView.backgroundColor = .white
+            
             titleLabel.font = .systemFont(ofSize: 24, weight: .medium)
             titleLabel.textColor = pointColor
             
             confirmButton.backgroundColor = .white
             confirmButton.setTitleColor(pointColor, for: .normal)
-            confirmButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .thin)
+            confirmButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .regular)
             confirmButton.layer.borderWidth = 1
             confirmButton.layer.borderColor = pointColor.cgColor
             confirmButton.layer.shadowColor = UIColor.gray.cgColor
