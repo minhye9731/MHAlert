@@ -8,6 +8,13 @@
 import UIKit
 
 @available(iOS 13.0, *)
+public enum MHAlertButtonStyle {
+    case basic
+    case colored
+}
+
+
+@available(iOS 13.0, *)
 open class MHAlert: UIView {
     private var contentView: UIView!
     private var titleLabel: UILabel!
@@ -23,6 +30,9 @@ open class MHAlert: UIView {
     private var cancelText: String?
     private var completion: (() -> Void)?
     
+    private var alertButtonStyle: MHAlertButtonStyle = .basic
+    
+    ///Basic
     public convenience init(title: String, message: String, confirm: String, cancel: String, completion: (() -> Void)?) {
         self.init(frame: CGRect.zero)
         
@@ -31,6 +41,21 @@ open class MHAlert: UIView {
         self.confirmText = confirm
         self.cancelText = cancel
         self.completion = completion
+    }
+    
+    ///Colored
+    public convenience init(title: String, message: String, confirm: String, color: UIColor, completion: (() -> Void)?) {
+        self.init(frame: CGRect.zero)
+        
+        self.titleText = title
+        self.messageText = message
+        self.confirmText = confirm
+        self.completion = completion
+        
+        self.titleLabel.textColor = color
+        self.confirmButton.backgroundColor = color
+        self.confirmButton.setTitleColor(.white, for: .normal)
+        self.backgroundColor = color.withAlphaComponent(0.1)
     }
     
     override public init(frame: CGRect) {
@@ -83,30 +108,40 @@ open class MHAlert: UIView {
         messageLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
         messageLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
         
-        contentView.addSubview(lineView)
-        lineView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        lineView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        lineView.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
-        
-        contentView.addSubview(cancelButton)
-        cancelButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        cancelButton.topAnchor.constraint(equalTo: lineView.bottomAnchor).isActive = true
-        cancelButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        cancelButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
-        cancelButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5).isActive = true
+        switch alertButtonStyle {
+        case .basic:
+            contentView.addSubview(lineView)
+            lineView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+            lineView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+            lineView.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
+            
+            contentView.addSubview(cancelButton)
+            cancelButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+            cancelButton.topAnchor.constraint(equalTo: lineView.bottomAnchor).isActive = true
+            cancelButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+            cancelButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+            cancelButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5).isActive = true
 
-        contentView.addSubview(confirmButton)
-        confirmButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        confirmButton.topAnchor.constraint(equalTo: lineView.bottomAnchor).isActive = true
-        confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        confirmButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
-        confirmButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5).isActive = true
-        
-        contentView.addSubview(verticalLineView)
-        verticalLineView.topAnchor.constraint(equalTo: lineView.bottomAnchor).isActive = true
-        verticalLineView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        verticalLineView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        verticalLineView.widthAnchor.constraint(equalToConstant: 0.5).isActive = true
+            contentView.addSubview(confirmButton)
+            confirmButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+            confirmButton.topAnchor.constraint(equalTo: lineView.bottomAnchor).isActive = true
+            confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+            confirmButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+            confirmButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5).isActive = true
+            
+            contentView.addSubview(verticalLineView)
+            verticalLineView.topAnchor.constraint(equalTo: lineView.bottomAnchor).isActive = true
+            verticalLineView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+            verticalLineView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+            verticalLineView.widthAnchor.constraint(equalToConstant: 0.5).isActive = true
+        case .colored:
+            contentView.addSubview(confirmButton)
+            confirmButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6).isActive = true
+            confirmButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+            confirmButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+            confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 20).isActive = true
+            confirmButton.layer.cornerRadius = 20
+        }
     }
     
     open func setAttribute() {
@@ -120,20 +155,39 @@ open class MHAlert: UIView {
         
         titleLabel.text = titleText ?? "Title"
         titleLabel.textAlignment = .center
-        titleLabel.font = .systemFont(ofSize: 20, weight: .bold)
+//        titleLabel.font = .systemFont(ofSize: 20, weight: .bold)
         
         messageLabel.text = messageText ?? "Message"
         messageLabel.textAlignment = .center
-        messageLabel.font = .systemFont(ofSize: 16, weight: .medium)
+//        messageLabel.font = .systemFont(ofSize: 16, weight: .medium)
         messageLabel.numberOfLines = 0
         
         confirmButton.setTitle(confirmText ?? "confirm", for: .normal)
-        confirmButton.setTitleColor(.black, for: .normal)
+//        confirmButton.setTitleColor(.black, for: .normal)
         confirmButton.addTarget(self, action: #selector(confirmActionTapped), for: .touchUpInside)
         
         cancelButton.setTitle(cancelText ?? "cancel", for: .normal)
         cancelButton.setTitleColor(.black, for: .normal)
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+        
+        switch alertButtonStyle {
+        case .basic:
+            titleLabel.font = .systemFont(ofSize: 20, weight: .bold)
+            messageLabel.font = .systemFont(ofSize: 16, weight: .medium)
+            confirmButton.setTitleColor(.black, for: .normal)
+            confirmButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
+        case .colored:
+            titleLabel.font = .systemFont(ofSize: 28, weight: .semibold)
+            messageLabel.font = .systemFont(ofSize: 14, weight: .light)
+            confirmButton.setTitleColor(.white, for: .normal)
+            confirmButton.titleLabel?.font = .systemFont(ofSize: 28, weight: .semibold)
+        }
+        
+        
+        
+        
+        
+        
     }
     
     @objc private func cancelButtonTapped() {
