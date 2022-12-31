@@ -55,9 +55,8 @@ open class MHAlert: UIView {
         
         self.titleLabel.textColor = color
         self.confirmButton.backgroundColor = color
-        self.confirmButton.setTitleColor(.white, for: .normal)
         self.alertButtonStyle = style
-        self.backgroundColor = color.withAlphaComponent(0.1)
+        self.contentView.backgroundColor = color.withAlphaComponent(0.1)
     }
     
     override public init(frame: CGRect) {
@@ -148,12 +147,12 @@ open class MHAlert: UIView {
             verticalLineView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
             verticalLineView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
             verticalLineView.widthAnchor.constraint(equalToConstant: 0.5).isActive = true
+            
         case .colored:
-//            contentView.addSubview(confirmButton)
             confirmButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6).isActive = true
             confirmButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
             confirmButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-            confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 20).isActive = true
+            confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 24).isActive = true
             confirmButton.layer.cornerRadius = 20
         }
     }
@@ -189,10 +188,11 @@ open class MHAlert: UIView {
             confirmButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
             
         case .colored:
-            titleLabel.font = .systemFont(ofSize: 28, weight: .semibold)
-            messageLabel.font = .systemFont(ofSize: 14, weight: .light)
+            titleLabel.font = .systemFont(ofSize: 24, weight: .semibold)
+            messageLabel.font = .systemFont(ofSize: 14, weight: .regular)
+            messageLabel.textColor = .lightGray
             confirmButton.setTitleColor(.white, for: .normal)
-            confirmButton.titleLabel?.font = .systemFont(ofSize: 28, weight: .semibold)
+            confirmButton.titleLabel?.font = .systemFont(ofSize: 24, weight: .semibold)
         }
     }
     
