@@ -45,6 +45,10 @@ open class MHAlert: UIView {
         self.alertButtonStyle = style
         self.completion = completion
         self.pointColor = color ?? .lightGray
+        
+        if alertButtonStyle == .colored {
+            self.contentView.backgroundColor = pointColor.withAlphaComponent(0.2)
+        }
     }
     
     override public init(frame: CGRect) {
@@ -161,7 +165,7 @@ open class MHAlert: UIView {
             confirmButton.heightAnchor.constraint(equalToConstant: 36.0).isActive = true
             confirmButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
             confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
-            confirmButton.layer.cornerRadius = 22
+            confirmButton.layer.cornerRadius = 18
         }
     }
     
@@ -201,7 +205,7 @@ open class MHAlert: UIView {
             confirmButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
             
         case .colored:
-            contentView.backgroundColor = pointColor.withAlphaComponent(0.2)
+//            contentView.backgroundColor = pointColor.withAlphaComponent(0.2)
             
             titleLabel.font = .systemFont(ofSize: 24, weight: .semibold)
             titleLabel.textColor = pointColor
@@ -213,6 +217,7 @@ open class MHAlert: UIView {
             
         case .lined:
             contentView.backgroundColor = .white
+            lineView.backgroundColor = .lightGray
             
             titleLabel.font = .systemFont(ofSize: 24, weight: .semibold)
             titleLabel.textColor = pointColor
@@ -236,7 +241,7 @@ open class MHAlert: UIView {
             confirmButton.layer.shadowColor = UIColor.gray.cgColor
             confirmButton.layer.shadowOpacity = 0.8
             confirmButton.layer.shadowOffset = CGSize.zero
-            confirmButton.layer.shadowRadius = 22
+            confirmButton.layer.shadowRadius = 10
         }
     }
     
