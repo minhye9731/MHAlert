@@ -33,7 +33,7 @@ open class MHAlert: UIView {
     private var alertButtonStyle: MHAlertButtonStyle = .basic
     
     ///Basic
-    public convenience init(title: String, message: String, confirm: String, cancel: String, completion: (() -> Void)?) {
+    public convenience init(title: String, message: String, style: MHAlertButtonStyle, confirm: String, cancel: String, completion: (() -> Void)?) {
         self.init(frame: CGRect.zero)
         
         self.titleText = title
@@ -44,7 +44,7 @@ open class MHAlert: UIView {
     }
     
     ///Colored
-    public convenience init(title: String, message: String, confirm: String, color: UIColor, completion: (() -> Void)?) {
+    public convenience init(title: String, message: String, style: MHAlertButtonStyle, confirm: String, color: UIColor, completion: (() -> Void)?) {
         self.init(frame: CGRect.zero)
         
         self.titleText = title
