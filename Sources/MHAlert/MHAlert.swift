@@ -12,6 +12,7 @@ public enum MHAlertButtonStyle {
     case basic
     case colored
     case lined
+    case shadow
 }
 
 
@@ -43,7 +44,7 @@ open class MHAlert: UIView {
         self.cancelText = cancel
         self.alertButtonStyle = style
         self.completion = completion
-
+        self.pointColor = color ?? .lightGray
     }
     
     override public init(frame: CGRect) {
@@ -106,8 +107,7 @@ open class MHAlert: UIView {
         
         switch alertButtonStyle {
         case .basic:
-//            messageLabel.bottomAnchor.constraint(equalTo: lineView.topAnchor, constant: -15).isActive = true
-            
+
             contentView.addSubview(lineView)
             lineView.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 15).isActive = true
             lineView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
@@ -140,7 +140,7 @@ open class MHAlert: UIView {
             confirmButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
             confirmButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
             confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24).isActive = true
-            confirmButton.layer.cornerRadius = 20
+            confirmButton.layer.cornerRadius = 22
             
         case .lined:
             messageLabel.bottomAnchor.constraint(equalTo: lineView.topAnchor, constant: -15).isActive = true
@@ -155,6 +155,15 @@ open class MHAlert: UIView {
             confirmButton.topAnchor.constraint(equalTo: lineView.bottomAnchor).isActive = true
             confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
             confirmButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+            
+        case .shadow:
+            messageLabel.bottomAnchor.constraint(equalTo: confirmButton.topAnchor, constant: -15).isActive = true
+            
+            confirmButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6).isActive = true
+            confirmButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
+            confirmButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+            confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24).isActive = true
+            confirmButton.layer.cornerRadius = 22
         }
     }
     
@@ -170,6 +179,7 @@ open class MHAlert: UIView {
         messageLabel.text = messageText ?? "Message"
         messageLabel.textAlignment = .center
         messageLabel.numberOfLines = 0
+        messageLabel.textColor = .lightGray
         
         confirmButton.setTitle(confirmText ?? "confirm", for: .normal)
         confirmButton.addTarget(self, action: #selector(confirmActionTapped), for: .touchUpInside)
@@ -196,7 +206,6 @@ open class MHAlert: UIView {
             
             titleLabel.font = .systemFont(ofSize: 24, weight: .semibold)
             messageLabel.font = .systemFont(ofSize: 14, weight: .regular)
-            messageLabel.textColor = .lightGray
             
             confirmButton.backgroundColor = pointColor
             confirmButton.setTitleColor(.white, for: .normal)
@@ -205,11 +214,23 @@ open class MHAlert: UIView {
         case .lined:
             titleLabel.font = .systemFont(ofSize: 24, weight: .semibold)
             messageLabel.font = .systemFont(ofSize: 14, weight: .regular)
-            messageLabel.textColor = .lightGray
             
             confirmButton.backgroundColor = .white
             confirmButton.setTitleColor(pointColor, for: .normal)
             confirmButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
+            
+        case .shadow:
+            titleLabel.font = .systemFont(ofSize: 24, weight: .medium)
+            
+            confirmButton.backgroundColor = .white
+            confirmButton.setTitleColor(pointColor, for: .normal)
+            confirmButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .thin)
+            confirmButton.layer.borderWidth = 1
+            confirmButton.layer.borderColor = pointColor.cgColor
+            confirmButton.layer.shadowColor = UIColor.gray.cgColor
+            confirmButton.layer.shadowOpacity = 0.8
+            confirmButton.layer.shadowOffset = CGSize.zero
+            confirmButton.layer.shadowRadius = 22
         }
     }
     
