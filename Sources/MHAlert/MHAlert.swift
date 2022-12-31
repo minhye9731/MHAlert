@@ -97,6 +97,7 @@ open class MHAlert: UIView {
         contentView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         contentView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2).isActive = true
         contentView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8).isActive = true
+        contentView.clipsToBounds = true
         
         titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10.0).isActive = true
@@ -174,7 +175,6 @@ open class MHAlert: UIView {
         
         titleLabel.text = titleText ?? "Title"
         titleLabel.textAlignment = .center
-        titleLabel.textColor = pointColor
         
         messageLabel.text = messageText ?? "Message"
         messageLabel.textAlignment = .center
@@ -195,6 +195,7 @@ open class MHAlert: UIView {
             cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
             
             titleLabel.font = .systemFont(ofSize: 20, weight: .bold)
+            titleLabel.textColor = .black
             messageLabel.font = .systemFont(ofSize: 16, weight: .medium)
             
             confirmButton.backgroundColor = .white
@@ -205,6 +206,7 @@ open class MHAlert: UIView {
             contentView.backgroundColor = pointColor.withAlphaComponent(0.1)
             
             titleLabel.font = .systemFont(ofSize: 24, weight: .semibold)
+            titleLabel.textColor = pointColor
             messageLabel.font = .systemFont(ofSize: 14, weight: .regular)
             
             confirmButton.backgroundColor = pointColor
@@ -213,6 +215,7 @@ open class MHAlert: UIView {
             
         case .lined:
             titleLabel.font = .systemFont(ofSize: 24, weight: .semibold)
+            titleLabel.textColor = pointColor
             messageLabel.font = .systemFont(ofSize: 14, weight: .regular)
             
             confirmButton.backgroundColor = .white
@@ -221,6 +224,7 @@ open class MHAlert: UIView {
             
         case .shadow:
             titleLabel.font = .systemFont(ofSize: 24, weight: .medium)
+            titleLabel.textColor = pointColor
             
             confirmButton.backgroundColor = .white
             confirmButton.setTitleColor(pointColor, for: .normal)
