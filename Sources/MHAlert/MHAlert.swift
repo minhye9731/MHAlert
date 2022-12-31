@@ -40,6 +40,7 @@ open class MHAlert: UIView {
         self.messageText = message
         self.confirmText = confirm
         self.cancelText = cancel
+        self.alertButtonStyle = style
         self.completion = completion
     }
     
@@ -55,6 +56,7 @@ open class MHAlert: UIView {
         self.titleLabel.textColor = color
         self.confirmButton.backgroundColor = color
         self.confirmButton.setTitleColor(.white, for: .normal)
+        self.alertButtonStyle = style
         self.backgroundColor = color.withAlphaComponent(0.1)
     }
     
