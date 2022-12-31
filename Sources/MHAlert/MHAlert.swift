@@ -45,10 +45,6 @@ open class MHAlert: UIView {
         self.alertButtonStyle = style
         self.completion = completion
         self.pointColor = color ?? .lightGray
-        
-        if alertButtonStyle == .colored {
-            self.contentView.backgroundColor = color?.withAlphaComponent(0.1)
-        }
     }
     
     override public init(frame: CGRect) {
@@ -112,7 +108,7 @@ open class MHAlert: UIView {
         switch alertButtonStyle {
         case .basic:
             contentView.addSubview(lineView)
-            lineView.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 15).isActive = true
+            lineView.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 35).isActive = true
             lineView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
             lineView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
             lineView.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
@@ -147,7 +143,7 @@ open class MHAlert: UIView {
             
         case .lined:
             contentView.addSubview(lineView)
-            lineView.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 15).isActive = true
+            lineView.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 25).isActive = true
             lineView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
             lineView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
             lineView.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
@@ -159,7 +155,7 @@ open class MHAlert: UIView {
             confirmButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
             
         case .shadow:
-            messageLabel.bottomAnchor.constraint(equalTo: confirmButton.topAnchor, constant: -15).isActive = true
+            messageLabel.bottomAnchor.constraint(equalTo: confirmButton.topAnchor, constant: -20).isActive = true
             
             confirmButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6).isActive = true
             confirmButton.heightAnchor.constraint(equalToConstant: 36.0).isActive = true
@@ -172,6 +168,7 @@ open class MHAlert: UIView {
     
     open func setAttribute() {
         self.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 14.0
         contentView.clipsToBounds = true
         
@@ -188,7 +185,6 @@ open class MHAlert: UIView {
         
         switch alertButtonStyle {
         case .basic:
-            contentView.backgroundColor = .white
             lineView.backgroundColor = .lightGray
             verticalLineView.backgroundColor = .lightGray
             
@@ -205,8 +201,6 @@ open class MHAlert: UIView {
             confirmButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
             
         case .colored:
-//            contentView.backgroundColor = pointColor.withAlphaComponent(0.2)
-            
             titleLabel.font = .systemFont(ofSize: 24, weight: .semibold)
             titleLabel.textColor = pointColor
             messageLabel.font = .systemFont(ofSize: 14, weight: .regular)
@@ -216,7 +210,6 @@ open class MHAlert: UIView {
             confirmButton.titleLabel?.font = .systemFont(ofSize: 24, weight: .semibold)
             
         case .lined:
-            contentView.backgroundColor = .white
             lineView.backgroundColor = .lightGray
             
             titleLabel.font = .systemFont(ofSize: 24, weight: .semibold)
@@ -228,8 +221,6 @@ open class MHAlert: UIView {
             confirmButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
             
         case .shadow:
-            contentView.backgroundColor = .white
-            
             titleLabel.font = .systemFont(ofSize: 24, weight: .medium)
             titleLabel.textColor = pointColor
             messageLabel.font = .systemFont(ofSize: 16, weight: .regular)
