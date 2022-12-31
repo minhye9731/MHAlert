@@ -85,24 +85,36 @@ open class MHAlert: UIView {
     
     open func show(in superview: UIView) {
         setAttribute()
-        
+        configureUI(superview)
+        setConstraints(superview)
+    }
+    
+    private func configureUI(_ superview: UIView) {
         superview.addSubview(self)
+        self.addSubview(contentView)
+        [titleLabel, messageLabel, confirmButton].forEach {
+            contentView.addSubview($0)
+        }
+    }
+    
+    private func setConstraints(_ superview: UIView) {
+        
         self.topAnchor.constraint(equalTo: superview.topAnchor).isActive = true
         self.leadingAnchor.constraint(equalTo: superview.leadingAnchor).isActive = true
         self.trailingAnchor.constraint(equalTo: superview.trailingAnchor).isActive = true
         self.bottomAnchor.constraint(equalTo: superview.bottomAnchor).isActive = true
         
-        self.addSubview(contentView)
+//        self.addSubview(contentView)
         contentView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         contentView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         contentView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2).isActive = true
         contentView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8).isActive = true
         
-        contentView.addSubview(titleLabel)
+//        contentView.addSubview(titleLabel)
         titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10.0).isActive = true
         
-        contentView.addSubview(messageLabel)
+//        contentView.addSubview(messageLabel)
         messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15).isActive = true
         messageLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 28).isActive = true
         messageLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
@@ -122,7 +134,7 @@ open class MHAlert: UIView {
             cancelButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
             cancelButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5).isActive = true
 
-            contentView.addSubview(confirmButton)
+//            contentView.addSubview(confirmButton)
             confirmButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
             confirmButton.topAnchor.constraint(equalTo: lineView.bottomAnchor).isActive = true
             confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
@@ -135,7 +147,7 @@ open class MHAlert: UIView {
             verticalLineView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
             verticalLineView.widthAnchor.constraint(equalToConstant: 0.5).isActive = true
         case .colored:
-            contentView.addSubview(confirmButton)
+//            contentView.addSubview(confirmButton)
             confirmButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6).isActive = true
             confirmButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
             confirmButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
@@ -144,50 +156,42 @@ open class MHAlert: UIView {
         }
     }
     
+    
     open func setAttribute() {
         self.backgroundColor = UIColor.black.withAlphaComponent(0.7)
-        
         contentView.layer.cornerRadius = 14.0
-        contentView.backgroundColor = .white
-        
-        lineView.backgroundColor = .lightGray
-        verticalLineView.backgroundColor = .lightGray
         
         titleLabel.text = titleText ?? "Title"
         titleLabel.textAlignment = .center
-//        titleLabel.font = .systemFont(ofSize: 20, weight: .bold)
         
         messageLabel.text = messageText ?? "Message"
         messageLabel.textAlignment = .center
-//        messageLabel.font = .systemFont(ofSize: 16, weight: .medium)
         messageLabel.numberOfLines = 0
         
         confirmButton.setTitle(confirmText ?? "confirm", for: .normal)
-//        confirmButton.setTitleColor(.black, for: .normal)
         confirmButton.addTarget(self, action: #selector(confirmActionTapped), for: .touchUpInside)
-        
-        cancelButton.setTitle(cancelText ?? "cancel", for: .normal)
-        cancelButton.setTitleColor(.black, for: .normal)
-        cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         
         switch alertButtonStyle {
         case .basic:
+            contentView.backgroundColor = .white
+            lineView.backgroundColor = .lightGray
+            verticalLineView.backgroundColor = .lightGray
+            
+            cancelButton.setTitle(cancelText ?? "cancel", for: .normal)
+            cancelButton.setTitleColor(.black, for: .normal)
+            cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+            
             titleLabel.font = .systemFont(ofSize: 20, weight: .bold)
             messageLabel.font = .systemFont(ofSize: 16, weight: .medium)
             confirmButton.setTitleColor(.black, for: .normal)
             confirmButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
+            
         case .colored:
             titleLabel.font = .systemFont(ofSize: 28, weight: .semibold)
             messageLabel.font = .systemFont(ofSize: 14, weight: .light)
             confirmButton.setTitleColor(.white, for: .normal)
             confirmButton.titleLabel?.font = .systemFont(ofSize: 28, weight: .semibold)
         }
-        
-        
-        
-        
-        
-        
     }
     
     @objc private func cancelButtonTapped() {
