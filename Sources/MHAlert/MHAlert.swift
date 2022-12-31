@@ -13,20 +13,23 @@ open class MHAlert: UIView {
     private var titleLabel: UILabel!
     private var messageLabel: UILabel!
     private var lineView: UIView!
+    private var verticalLineView: UIView!
     private var confirmButton: UIButton!
     private var cancelButton: UIButton!
     
     private var titleText: String?
     private var messageText: String?
     private var confirmText: String?
+    private var cancelText: String?
     private var completion: (() -> Void)?
     
-    public convenience init(title: String, message: String, confirm: String, completion: (() -> Void)?) {
+    public convenience init(title: String, message: String, confirm: String, cancel: String, completion: (() -> Void)?) {
         self.init(frame: CGRect.zero)
         
         self.titleText = title
         self.messageText = message
         self.confirmText = confirm
+        self.cancelText = cancel
         self.completion = completion
     }
     
@@ -37,6 +40,7 @@ open class MHAlert: UIView {
         titleLabel = UILabel()
         messageLabel = UILabel()
         lineView = UIView()
+        verticalLineView = UIView()
         confirmButton = UIButton(type: .custom)
         cancelButton = UIButton(type: .custom)
         
@@ -45,6 +49,7 @@ open class MHAlert: UIView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
         lineView.translatesAutoresizingMaskIntoConstraints = false
+        verticalLineView.translatesAutoresizingMaskIntoConstraints = false
         confirmButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -79,7 +84,6 @@ open class MHAlert: UIView {
         messageLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
         
         contentView.addSubview(lineView)
-//        lineView.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 15).isActive = true
         lineView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         lineView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         lineView.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
@@ -97,6 +101,12 @@ open class MHAlert: UIView {
         confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         confirmButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
         confirmButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5).isActive = true
+        
+        contentView.addSubview(verticalLineView)
+        verticalLineView.topAnchor.constraint(equalTo: lineView.bottomAnchor).isActive = true
+        verticalLineView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        verticalLineView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        verticalLineView.widthAnchor.constraint(equalToConstant: 0.5).isActive = true
     }
     
     open func setAttribute() {
@@ -106,6 +116,7 @@ open class MHAlert: UIView {
         contentView.backgroundColor = .white
         
         lineView.backgroundColor = .lightGray
+        verticalLineView.backgroundColor = .lightGray
         
         titleLabel.text = titleText ?? "Title"
         titleLabel.textAlignment = .center
@@ -113,14 +124,14 @@ open class MHAlert: UIView {
         
         messageLabel.text = messageText ?? "Message"
         messageLabel.textAlignment = .center
-        messageLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+        messageLabel.font = .systemFont(ofSize: 16, weight: .medium)
         messageLabel.numberOfLines = 0
         
         confirmButton.setTitle(confirmText ?? "confirm", for: .normal)
         confirmButton.setTitleColor(.black, for: .normal)
         confirmButton.addTarget(self, action: #selector(confirmActionTapped), for: .touchUpInside)
         
-        cancelButton.setTitle("cancel", for: .normal)
+        cancelButton.setTitle(cancelText ?? "cancel", for: .normal)
         cancelButton.setTitleColor(.black, for: .normal)
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
     }
