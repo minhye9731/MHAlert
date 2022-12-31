@@ -133,7 +133,7 @@ open class MHAlert: UIView {
             verticalLineView.widthAnchor.constraint(equalToConstant: 0.5).isActive = true
             
         case .colored:
-            messageLabel.bottomAnchor.constraint(equalTo: confirmButton.topAnchor, constant: -25).isActive = true
+            messageLabel.bottomAnchor.constraint(equalTo: confirmButton.topAnchor, constant: -20).isActive = true
             
             confirmButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6).isActive = true
             confirmButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
@@ -231,7 +231,7 @@ open class MHAlert: UIView {
             confirmButton.layer.borderWidth = 1
             confirmButton.layer.borderColor = pointColor.cgColor
             confirmButton.layer.shadowColor = UIColor.darkGray.cgColor
-            confirmButton.layer.shadowOpacity = 0.3
+            confirmButton.layer.shadowOpacity = 0.2
             confirmButton.layer.shadowOffset = CGSize.zero
             confirmButton.layer.shadowRadius = 10
         }
