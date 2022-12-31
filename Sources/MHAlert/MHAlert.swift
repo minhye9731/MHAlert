@@ -108,17 +108,28 @@ open class MHAlert: UIView {
         lineView.backgroundColor = .lightGray
         
         titleLabel.text = titleText ?? "Title"
+        titleLabel.textAlignment = .center
+        titleLabel.font = .systemFont(ofSize: 20, weight: .bold)
+        
         messageLabel.text = messageText ?? "Message"
+        messageLabel.textAlignment = .center
+        messageLabel.font = .systemFont(ofSize: 16, weight: .semibold)
         messageLabel.numberOfLines = 0
         
         confirmButton.setTitle(confirmText ?? "confirm", for: .normal)
-        confirmButton.addTarget(self, action: #selector(confirmAction), for: .touchUpInside)
+        confirmButton.setTitleColor(.black, for: .normal)
+        confirmButton.addTarget(self, action: #selector(confirmActionTapped), for: .touchUpInside)
         
         cancelButton.setTitle("cancel", for: .normal)
+        cancelButton.setTitleColor(.black, for: .normal)
+        cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
     }
     
+    @objc private func cancelButtonTapped() {
+        self.removeFromSuperview()
+    }
     
-    @objc private func confirmAction() {
+    @objc private func confirmActionTapped() {
         self.removeFromSuperview()
         completion?()
     }
