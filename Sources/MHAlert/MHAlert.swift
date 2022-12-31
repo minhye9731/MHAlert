@@ -33,7 +33,7 @@ open class MHAlert: UIView {
     
     private var alertButtonStyle: MHAlertButtonStyle = .basic
     
-    public convenience init(title: String, message: String, style: MHAlertButtonStyle, confirm: String, cancel: String?, color: UIColor?, completion: (() -> Void)?) {
+    public convenience init(title: String, message: String? = nil, style: MHAlertButtonStyle, confirm: String, cancel: String? = nil, color: UIColor? = nil, completion: (() -> Void)? = nil) {
         self.init(frame: CGRect.zero)
         
         self.titleText = title
@@ -41,20 +41,18 @@ open class MHAlert: UIView {
         self.confirmText = confirm
         self.cancelText = cancel
         
-        self.titleLabel.textColor = color
-//        self.confirmButton.backgroundColor = color
+        self.titleLabel.textColor = color ?? .lightGray
         
         self.alertButtonStyle = style
         self.completion = completion
         
         if style == .colored {
-            self.contentView.backgroundColor = color?.withAlphaComponent(0.1)
-            self.confirmButton.backgroundColor = color
+            self.contentView.backgroundColor = color?.withAlphaComponent(0.1) ?? .white
+            self.confirmButton.backgroundColor = color ?? .white
         } else if style == .lined {
             self.confirmButton.backgroundColor = .white
-            self.confirmButton.setTitleColor(color, for: .normal)
+            self.confirmButton.setTitleColor(color ?? .black, for: .normal)
         } else {
-//            default
             self.confirmButton.backgroundColor = .white
         }
     }
@@ -114,7 +112,6 @@ open class MHAlert: UIView {
         titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10.0).isActive = true
         
         messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15).isActive = true
-//        messageLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 28).isActive = true
         messageLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
         messageLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
         
@@ -212,7 +209,6 @@ open class MHAlert: UIView {
             titleLabel.font = .systemFont(ofSize: 24, weight: .semibold)
             messageLabel.font = .systemFont(ofSize: 14, weight: .regular)
             messageLabel.textColor = .lightGray
-//            confirmButton.setTitleColor(.white, for: .normal)
             confirmButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
         }
     }
