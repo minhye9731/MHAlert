@@ -30,6 +30,7 @@ open class MHAlert: UIView {
     private var confirmText: String?
     private var cancelText: String?
     private var completion: (() -> Void)?
+    private var pointColor: UIColor = .lightGray
     
     private var alertButtonStyle: MHAlertButtonStyle = .basic
     
@@ -40,21 +41,9 @@ open class MHAlert: UIView {
         self.messageText = message
         self.confirmText = confirm
         self.cancelText = cancel
-        
-        self.titleLabel.textColor = color ?? .lightGray
-        
         self.alertButtonStyle = style
         self.completion = completion
-        
-        if style == .colored {
-            self.contentView.backgroundColor = color?.withAlphaComponent(0.1) ?? .white
-            self.confirmButton.backgroundColor = color ?? .white
-        } else if style == .lined {
-            self.confirmButton.backgroundColor = .white
-            self.confirmButton.setTitleColor(color ?? .black, for: .normal)
-        } else {
-            self.confirmButton.backgroundColor = .white
-        }
+
     }
     
     override public init(frame: CGRect) {
@@ -117,9 +106,10 @@ open class MHAlert: UIView {
         
         switch alertButtonStyle {
         case .basic:
-            messageLabel.bottomAnchor.constraint(equalTo: lineView.topAnchor, constant: -15).isActive = true
+//            messageLabel.bottomAnchor.constraint(equalTo: lineView.topAnchor, constant: -15).isActive = true
             
             contentView.addSubview(lineView)
+            lineView.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 15).isActive = true
             lineView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
             lineView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
             lineView.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
@@ -175,6 +165,7 @@ open class MHAlert: UIView {
         
         titleLabel.text = titleText ?? "Title"
         titleLabel.textAlignment = .center
+        titleLabel.textColor = pointColor
         
         messageLabel.text = messageText ?? "Message"
         messageLabel.textAlignment = .center
@@ -195,13 +186,19 @@ open class MHAlert: UIView {
             
             titleLabel.font = .systemFont(ofSize: 20, weight: .bold)
             messageLabel.font = .systemFont(ofSize: 16, weight: .medium)
+            
+            confirmButton.backgroundColor = .white
             confirmButton.setTitleColor(.black, for: .normal)
             confirmButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
             
         case .colored:
+            contentView.backgroundColor = pointColor.withAlphaComponent(0.1)
+            
             titleLabel.font = .systemFont(ofSize: 24, weight: .semibold)
             messageLabel.font = .systemFont(ofSize: 14, weight: .regular)
             messageLabel.textColor = .lightGray
+            
+            confirmButton.backgroundColor = pointColor
             confirmButton.setTitleColor(.white, for: .normal)
             confirmButton.titleLabel?.font = .systemFont(ofSize: 24, weight: .semibold)
             
@@ -209,6 +206,9 @@ open class MHAlert: UIView {
             titleLabel.font = .systemFont(ofSize: 24, weight: .semibold)
             messageLabel.font = .systemFont(ofSize: 14, weight: .regular)
             messageLabel.textColor = .lightGray
+            
+            confirmButton.backgroundColor = .white
+            confirmButton.setTitleColor(pointColor, for: .normal)
             confirmButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
         }
     }
