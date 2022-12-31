@@ -56,7 +56,7 @@ open class MHAlert: UIView {
         self.titleLabel.textColor = color
         self.confirmButton.backgroundColor = color
         self.alertButtonStyle = style
-        self.contentView.backgroundColor = color.withAlphaComponent(0.1)
+        self.contentView.backgroundColor = color// .withAlphaComponent(0.1)
     }
     
     override public init(frame: CGRect) {
@@ -105,17 +105,14 @@ open class MHAlert: UIView {
         self.trailingAnchor.constraint(equalTo: superview.trailingAnchor).isActive = true
         self.bottomAnchor.constraint(equalTo: superview.bottomAnchor).isActive = true
         
-//        self.addSubview(contentView)
         contentView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         contentView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         contentView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2).isActive = true
         contentView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8).isActive = true
         
-//        contentView.addSubview(titleLabel)
         titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10.0).isActive = true
         
-//        contentView.addSubview(messageLabel)
         messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15).isActive = true
         messageLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 28).isActive = true
         messageLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
@@ -135,7 +132,6 @@ open class MHAlert: UIView {
             cancelButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
             cancelButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5).isActive = true
 
-//            contentView.addSubview(confirmButton)
             confirmButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
             confirmButton.topAnchor.constraint(equalTo: lineView.bottomAnchor).isActive = true
             confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
@@ -152,7 +148,7 @@ open class MHAlert: UIView {
             confirmButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6).isActive = true
             confirmButton.heightAnchor.constraint(equalToConstant: 44.0).isActive = true
             confirmButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-            confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 24).isActive = true
+            confirmButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24).isActive = true
             confirmButton.layer.cornerRadius = 20
         }
     }
