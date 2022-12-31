@@ -47,7 +47,7 @@ open class MHAlert: UIView {
         self.pointColor = color ?? .lightGray
         
         if alertButtonStyle == .colored {
-            self.contentView.backgroundColor = pointColor.withAlphaComponent(0.2)
+            self.contentView.backgroundColor = color?.withAlphaComponent(0.1)
         }
     }
     
@@ -232,6 +232,7 @@ open class MHAlert: UIView {
             
             titleLabel.font = .systemFont(ofSize: 24, weight: .medium)
             titleLabel.textColor = pointColor
+            messageLabel.font = .systemFont(ofSize: 16, weight: .regular)
             
             confirmButton.backgroundColor = .white
             confirmButton.setTitleColor(pointColor, for: .normal)
@@ -239,7 +240,7 @@ open class MHAlert: UIView {
             confirmButton.layer.borderWidth = 1
             confirmButton.layer.borderColor = pointColor.cgColor
             confirmButton.layer.shadowColor = UIColor.gray.cgColor
-            confirmButton.layer.shadowOpacity = 0.8
+            confirmButton.layer.shadowOpacity = 0.2
             confirmButton.layer.shadowOffset = CGSize.zero
             confirmButton.layer.shadowRadius = 10
         }
