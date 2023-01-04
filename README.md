@@ -1,3 +1,6 @@
+SPM supported | platform iOS  
+
+
 # MHAlert
 * As an exercise I recreate several simple alert using Swift.
 
