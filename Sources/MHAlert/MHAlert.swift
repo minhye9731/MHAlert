@@ -7,7 +7,7 @@
 
 import UIKit
 
-@available(iOS 13.0, *)
+@available(iOS 12.0, *)
 public enum MHAlertButtonStyle {
     case basic
     case colored
@@ -16,7 +16,7 @@ public enum MHAlertButtonStyle {
 }
 
 
-@available(iOS 13.0, *)
+@available(iOS 12.0, *)
 open class MHAlert: UIView {
     private var contentView: UIView!
     private var titleLabel: UILabel!
